@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.storage.local.get([key], function (result) {
             console.log('Value currently is ' + result[key]);
             var temp = result[key];
-            if(temp == undefined) return;
+            if(temp == undefined || temp.length == 0) {
+                document.getElementById('footer').appendChild(document.createTextNode("No Timestamps present. Press 'u' to add"));
+                return;
+            } 
             var a = document.getElementsByClassName('content')[0];
             temp.forEach((e, i) => {
                 var b = document.createElement('li');
@@ -16,9 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 b.append(e);
                 a.appendChild(b);
             });
+            var clearallbutton = document.createElement('button'); clearallbutton.innerHTML = 'Clear All'; clearallbutton.addEventListener('click', onClearAll);
+            var footer = document.getElementById('footer');
+            footer.appendChild(clearallbutton);
         });
     });
-    document.getElementById("clearall").addEventListener('click', onClearAll);
 })
 
 function onSubmitClick(event) {
@@ -63,13 +68,10 @@ function milliseconds_to_minutesandSeconds(duration){
     var hrs = ~~(duration / 3600);
     var mins = ~~((duration % 3600) / 60);
     var secs = ~~duration % 60;
-
     var ret = "";
-
     if (hrs > 0) {
         ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
     }
-
     ret += "" + mins + ":" + (secs < 10 ? "0" : "");
     ret += "" + secs;
     return ret;
