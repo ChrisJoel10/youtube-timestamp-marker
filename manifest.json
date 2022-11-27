@@ -1,0 +1,27 @@
+{
+    "name": "extension4",
+    "version": "0.0.0.1",
+    "manifest_version": 3,
+    "description": "", 
+    "permissions": [
+        "notifications", "storage"
+    ],
+    "host_permissions": [
+        "https://www.youtube.com/*"
+    ],
+    "background": {
+		"service_worker": "background.js"
+	}, 
+    "content_scripts": [
+        {
+            "matches": [
+              "*://*/*"
+            ],
+            "js": ["content-scripts/content.js"]
+        }
+    ],
+    "action": {
+        "default_title": "Timestamp",
+        "default_popup": "popup/popup.html"
+    }
+}
